@@ -1,24 +1,29 @@
 from rest_framework import serializers
 from .models import Article, User
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'picture']
+
 class ArticleSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(source='user', many=False, read_only=True)
     class Meta:
         model = Article
         fields = ['id', 'author', 'category', 'title', 'summary', 'firstParagraph', 'body']
-        # depth = 1
 
 
 class ArticleSerializerAnonymous(serializers.ModelSerializer):
+    author = AuthorSerializer(source='user', many=False, read_only=True)
     class Meta:
         model = Article
         fields = ['id', 'author', 'category', 'title', 'summary', 'firstParagraph']
-        # depth = 1
 
 class ArticleSerializerList(serializers.ModelSerializer):
+    author = AuthorSerializer(source='user', many=False, read_only=True)
     class Meta:
         model = Article
         fields = ['id', 'author', 'category', 'title', 'summary']
-        # depth = 1
         
 
 class RegistrationSerializer(serializers.ModelSerializer):

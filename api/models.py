@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 
 class Article(models.Model):
-    author = models.ForeignKey("User", on_delete=CASCADE)
+    user = models.ForeignKey("User", on_delete=CASCADE)
     category = models.CharField(max_length=64)
     title = models.CharField(max_length=255)
     summary = models.TextField()
